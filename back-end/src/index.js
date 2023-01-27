@@ -5,8 +5,10 @@ const methodOverride = require("method-override");
 const app = express();
 const db = require("./config/connectDB");
 const initRoute = require("./routes/index");
+var cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
+app.use(cors({ credentials: true, origin: true }));
 //connect db
 db.connect();
 app.use(express.static(path.join(__dirname, "public")));

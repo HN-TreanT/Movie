@@ -1,0 +1,9 @@
+GET http://localhost:8080/api/v1/auth/get
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YzdkNWU5ZC0zOTNhLTQ3NWYtYTRlMS1mZDZiNTJhNWE3NzIiLCJpYXQiOjE2NzM3NjU4OTYsImV4cCI6MTY3Mzc2NjQ5Nn0.CQEH4zLzLW2J0jp3qv3AY3-04pFZEIPnJPpRdeR5iAk
+###
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "userId":"7c7d5e9d-393a-475f-a4e1-fd6b52a5a772" 
+}
