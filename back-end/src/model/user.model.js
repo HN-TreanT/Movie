@@ -8,7 +8,6 @@ const userSchema = new Schema(
     username: { type: String, require: true, unique: true },
     password: { type: String, require: true },
     photoURL: { type: String },
-    // photoURL: { type: Buffer },
     isAdmin: { type: Boolean, default: false },
     favorite: { type: Array },
     // genToken: { type: String, require: true },

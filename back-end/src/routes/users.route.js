@@ -25,16 +25,12 @@ const upload = multer({ storage: storage });
 router.get("/getAllUser", userController.getAllUsers);
 router.get("/getUser", validateToken, userController.getUser);
 router.post("/signup", userController.SignUp);
-//router.patch("/editUser", validateToken, userController.EditUser);
-// router.patch(
-//   "/editUser",
-//   // validateToken,
-//   upload.fields({
-//     name: "images",
-//   }),
-//   userController.EditUser
-// );
-router.patch("/editUser", upload.single("photoURL"), userController.EditUser);
+router.patch(
+  "/editUser",
+  validateToken,
+  upload.single("photoURL"),
+  userController.EditUser
+);
 router.delete("/deleteUser", userController.DeleteUser);
 router.patch("/changePassword", validateToken, userController.ChangePassword);
 router.get("/searchUser", userController.SearchUser);

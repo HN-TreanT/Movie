@@ -12,15 +12,7 @@ const updateUserInfo = (infoUpdate: any) => {
   return api.makeAuthRequest({
     url: "/api/v1/editUser",
     method: "PATCH",
-    // headers: {
-    //   "Content-Type": "application/json",
-    //   Accept: "application/json",
-    //   Authorization: `Bearer ${token}`,
-    // },
     data: infoUpdate,
-    // headers: {
-    //   "Content-Type": "multipart/form-data",
-    // },
   });
 };
 

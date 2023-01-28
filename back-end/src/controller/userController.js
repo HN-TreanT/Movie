@@ -68,34 +68,13 @@ exports.SignUp = async (req, res) => {
 };
 
 exports.EditUser = async (req, res) => {
-  //const { id } = req.decoded;
-  //text upload file
-  // const { name } = req.body;
-  // let imagesPath = [];
-  // if (Array.isArray(req.files.images) && req.files.images.length > 0) {
-  //   for (let image of req.files.images) {
-  //     imagesPath.push("/" + image.path);
-  //   }
-  // }
-  // let imagesPath = "/" + req.files.images.path;
-  // req.body.photoURL = imagesPath;
-  // console.log(req.body);
-  ////
-  console.log("check");
-  console.log(req.file);
-  // console.log(
-  //   getDir({ dir: root + "/src/public/images/" + req.file.filename })
-  // );
-  const data = {
-    ...req.body,
-    //photoURL: getDir({ dir: root + "/src/public/images/" + req.file.filename }),
-    // photoURL: fs.readFileSync(root + "/src/public/images/", req.file.filename, {
-    //   encoding: "utf16le",
-    // }),
-    photoURL: "/public/images/" + req.file.filename,
-  };
+  const { id } = req.decoded;
   try {
-    let user = await Users.findOneAndUpdate({ userId: req.body.userId }, data, {
+    const data = {
+      ...req.body,
+      photoURL: "/public/images/" + req.file.filename,
+    };
+    let user = await Users.findOneAndUpdate({ userId: id }, data, {
       new: true,
     });
     if (user) {

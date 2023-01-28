@@ -51,7 +51,8 @@ function* update_user_info() {
 }
 function* listen() {
   yield takeEvery(actions.types.LOAD_ACCESS_TOKEN, load_access_token);
-  yield takeEvery(actions.types.UPDATE_USER_INFO_SUCCESS, update_user_info);
+  //yield takeEvery(actions.types.UPDATE_USER_INFO_SUCCESS, update_user_info);
+  yield takeEvery(actions.types.UPDATE_USER_INFO, update_user_info);
 }
 export default function* mainSaga() {
   yield all([fork(listen)]);
