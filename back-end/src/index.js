@@ -10,8 +10,8 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 app.use(cors({ credentials: true, origin: true }));
 //connect db
+app.use("/public", express.static(path.join(__dirname, "public")));
 db.connect();
-app.use(express.static(path.join(__dirname, "public")));
 
 //middleware middle
 app.use(

@@ -18,6 +18,9 @@ const updateUserInfo = (infoUpdate: any) => {
     //   Authorization: `Bearer ${token}`,
     // },
     data: infoUpdate,
+    // headers: {
+    //   "Content-Type": "multipart/form-data",
+    // },
   });
 };
 
