@@ -29,7 +29,7 @@ function* load_access_token() {
       yield put(
         actions.action.loadAccessTokenSuccess(response.data.accessToken)
       );
-      yield put(actions.action.userInfo(response.data.user));
+      yield put(actions.action.userInfo(response.data));
     }
   } catch (err) {
     console.log(err);
@@ -42,6 +42,13 @@ function* update_user_info() {
     );
 
     let infoUpdate = _infoUpdate;
+    let _userInfo: Promise<any> = yield select(
+      (state: any) => state.auth.user_info
+    );
+    let userInfo = _userInfo;
+    let _response: Promise<any> = yield authService.refreshToken(userInfo);
+    let response: any = _response;
+    localStorage.setItem("token", response.data.accessToken);
     let _message: Promise<any> = yield authService.updateUserInfo(infoUpdate);
     let message = _message;
     console.log(message);

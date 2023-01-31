@@ -45,11 +45,10 @@ exports.Login = async (req, res) => {
 };
 
 exports.RefreshToken = async (req, res) => {
-  const refreshToken = req.headers.authorization.split(" ")[1];
-  console.log(refreshToken);
+  const { refreshToken } = req.body;
   try {
     const { tokenDetails } = await verifyRefreshToken(refreshToken);
-    const user = await Users.findOne({ userId: tokenDetails.id });
+    const user = await Users.findOne({ userId: tokenDetails?.id });
     if (!user) {
       return responseServerError({ res, err: "user not exist" });
     } else {

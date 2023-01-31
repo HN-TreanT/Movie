@@ -16,4 +16,13 @@ const updateUserInfo = (infoUpdate: any) => {
   });
 };
 
-export const authService = { handleLoginApi, updateUserInfo };
+const refreshToken = (userInfo: any) => {
+  const { refreshToken } = userInfo;
+  return api.makeRequest({
+    url: "/api/v1/auth/refresh",
+    method: "POST",
+    data: { refreshToken },
+  });
+};
+
+export const authService = { handleLoginApi, updateUserInfo, refreshToken };

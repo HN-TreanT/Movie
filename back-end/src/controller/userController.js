@@ -72,7 +72,7 @@ exports.EditUser = async (req, res) => {
   try {
     const data = {
       ...req.body,
-      photoURL: "/public/images/" + req.file.filename,
+      photoURL: "/public/images/" + req.file?.filename,
     };
     let user = await Users.findOneAndUpdate({ userId: id }, data, {
       new: true,

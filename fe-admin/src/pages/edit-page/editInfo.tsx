@@ -1,31 +1,23 @@
 import useAction from "../../redux/useActions";
 import { serverConfig } from "../../const";
-import { authService } from "../../untils/networks/services/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input, Upload } from "antd";
-import axios from "axios";
 
 const EditInfo = () => {
   const [form] = Form.useForm();
   const actions = useAction();
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.auth.user_info);
-  // const normFile = (e: any) => {
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return e && e.fileList;
-  // };
-  const hanldeClick = () => {
+  const userInfo = useSelector((state: any) => state.auth.user_info);
+  const hanldeClick = async () => {
     const formData = new FormData();
     formData.append("photoURL", form.getFieldsValue().photoURL?.file);
     formData.append("displayName", form.getFieldsValue().displayName);
-    dispatch(actions.AuthActions.updateUserInfo(formData));
+    await dispatch(actions.AuthActions.updateUserInfo(formData));
   };
   return (
     <>
-      {user?.photoURL ? (
-        <img src={`${serverConfig.server}${user.photoURL}`} alt="" />
+      {userInfo?.user.photoURL ? (
+        <img src={`${serverConfig.server}${userInfo?.user.photoURL}`} alt="" />
       ) : (
         <h1>not image</h1>
       )}
@@ -40,16 +32,11 @@ const EditInfo = () => {
         <Form.Item
           label="Name"
           name="displayName"
-          initialValue={user?.displayName}
+          initialValue={userInfo?.user.displayName}
         >
           <Input placeholder="Hay Nhap ten" />
         </Form.Item>
-        <Form.Item
-          // valuePropName="fileList"
-          // getValueFromEvent={normFile}
-          label="photo"
-          name="photoURL"
-        >
+        <Form.Item label="photo" name="photoURL">
           <Upload.Dragger
             multiple
             accept=".png,.jpeg,.doc"
