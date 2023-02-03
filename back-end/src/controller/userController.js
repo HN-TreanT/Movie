@@ -3,7 +3,8 @@ const userServices = require("../services/userServices");
 const removeSign = require("../helper/removeSign");
 const { getDir } = require("../helper/file");
 const root = require("app-root-path");
-const fs = require("fs");
+const path = require("path");
+const { removeDir } = require("../helper/file");
 const {
   responseSuccessWithData,
   responseInValid,
@@ -11,6 +12,7 @@ const {
   reponseSuccess,
 } = require("../helper/ResponseRequests");
 const bcrypt = require("bcryptjs");
+const { NULL } = require("node-sass");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -69,15 +71,27 @@ exports.SignUp = async (req, res) => {
 
 exports.EditUser = async (req, res) => {
   const { id } = req.decoded;
+  const photoURlOld = req.body.photoURlOld;
+  const filePath = path.join(__dirname, ".." + photoURlOld);
+  delete req.body.photoURlOld;
+  console.log(req.file);
+  let data = {};
   try {
-    const data = {
-      ...req.body,
-      photoURL: "/public/images/" + req.file?.filename,
-    };
+    if (req.file) {
+      data = {
+        ...req.body,
+        photoURL: "/public/images/" + req.file?.filename,
+      };
+    } else {
+      data = { ...req.body, photoURL: null };
+    }
     let user = await Users.findOneAndUpdate({ userId: id }, data, {
       new: true,
     });
     if (user) {
+      if (user.photoURL) {
+        removeDir({ dir: filePath });
+      }
       return reponseSuccess({ res });
     } else {
       return responseInValid({ res, message: "Can not find user " });

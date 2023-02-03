@@ -9,15 +9,17 @@ const EditInfo = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state: any) => state.auth.user_info);
   const hanldeClick = async () => {
+    console.log(form.getFieldsValue().photoURL?.file);
     const formData = new FormData();
     formData.append("photoURL", form.getFieldsValue().photoURL?.file);
     formData.append("displayName", form.getFieldsValue().displayName);
+    formData.append("photoURlOld", userInfo?.photoURL);
     await dispatch(actions.AuthActions.updateUserInfo(formData));
   };
   return (
     <>
-      {userInfo?.user.photoURL ? (
-        <img src={`${serverConfig.server}${userInfo?.user.photoURL}`} alt="" />
+      {userInfo?.photoURL ? (
+        <img src={`${serverConfig.server}${userInfo?.photoURL}`} alt="" />
       ) : (
         <h1>not image</h1>
       )}
@@ -32,7 +34,7 @@ const EditInfo = () => {
         <Form.Item
           label="Name"
           name="displayName"
-          initialValue={userInfo?.user.displayName}
+          initialValue={userInfo?.displayName}
         >
           <Input placeholder="Hay Nhap ten" />
         </Form.Item>

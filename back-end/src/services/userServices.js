@@ -42,8 +42,14 @@ const createUser = async (res, data) => {
         resolve(responseInValid({ res, message: "user already exists" }));
       } else {
         const id = uuid();
+        const refreshToken = uuid();
         const hashPassword = await hashUserPassword(data.password);
-        const user = new Users({ ...data, userId: id, password: hashPassword });
+        const user = new Users({
+          ...data,
+          userId: id,
+          password: hashPassword,
+          refreshToken: refreshToken,
+        });
         await user.save();
         resolve(reponseSuccess({ res }));
       }

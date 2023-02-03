@@ -22,6 +22,8 @@ exports.Login = async (req, res) => {
           username: username,
           id: user.userId,
         });
+        user.refreshToken = refreshToken;
+        user.save();
         if (err) {
           return responseServerError({ res, err: err.message });
         }
@@ -29,7 +31,7 @@ exports.Login = async (req, res) => {
           res,
           data: {
             accessToken: accessToken,
-            refreshToken: refreshToken,
+            //  refreshToken: refreshToken,
             user: user,
           },
         });

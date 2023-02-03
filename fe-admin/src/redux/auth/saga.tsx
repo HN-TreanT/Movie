@@ -1,5 +1,6 @@
 import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 import actions from "./actions";
+import stateActions from "../state/actions";
 import { authService } from "../../untils/networks/services/authService";
 // function* handleErr(type: any, err: any) {
 //   console.log(type, err.data ? err.data.message : "Unknown error");
@@ -22,14 +23,17 @@ function* load_access_token() {
       (state: any) => state.auth.login_info
     );
     let loginInfo = _loginInfo;
+    yield put(stateActions.action.loadingState(true));
     let _response: Promise<any> = yield authService.handleLoginApi(loginInfo);
     let response: any = _response;
-    // console.log(response.data.accessToken);
     if (response.data.accessToken) {
       yield put(
         actions.action.loadAccessTokenSuccess(response.data.accessToken)
       );
-      yield put(actions.action.userInfo(response.data));
+      yield put(actions.action.userInfo(response.data.user));
+      yield put(actions.action.updateLoginInfo({}));
+      yield put(stateActions.action.loadingState(false));
+      yield put(stateActions.action.loginState(true));
     }
   } catch (err) {
     console.log(err);
@@ -45,20 +49,24 @@ function* update_user_info() {
     let _userInfo: Promise<any> = yield select(
       (state: any) => state.auth.user_info
     );
-    let userInfo = _userInfo;
+    let userInfo: any = _userInfo;
     let _response: Promise<any> = yield authService.refreshToken(userInfo);
     let response: any = _response;
     localStorage.setItem("token", response.data.accessToken);
     let _message: Promise<any> = yield authService.updateUserInfo(infoUpdate);
     let message = _message;
     console.log(message);
+    let _user: Promise<any> = yield authService.getInfoUser();
+    let user: any = _user;
+    if (user) {
+      yield put(actions.action.userInfo(user.data));
+    }
   } catch (err) {
     console.log("error--->", err);
   }
 }
 function* listen() {
   yield takeEvery(actions.types.LOAD_ACCESS_TOKEN, load_access_token);
-  //yield takeEvery(actions.types.UPDATE_USER_INFO_SUCCESS, update_user_info);
   yield takeEvery(actions.types.UPDATE_USER_INFO, update_user_info);
 }
 export default function* mainSaga() {

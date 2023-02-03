@@ -10,7 +10,7 @@ const userSchema = new Schema(
     photoURL: { type: String },
     isAdmin: { type: Boolean, default: false },
     favorite: { type: Array },
-    // genToken: { type: String, require: true },
+    refreshToken: { type: String, require: true },
   },
   {
     timestamps: true,

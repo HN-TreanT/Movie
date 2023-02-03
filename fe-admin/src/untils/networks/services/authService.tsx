@@ -16,6 +16,13 @@ const updateUserInfo = (infoUpdate: any) => {
   });
 };
 
+const getInfoUser = () => {
+  return api.makeAuthRequest({
+    url: "/api/v1/getUser",
+    method: "GET",
+  });
+};
+
 const refreshToken = (userInfo: any) => {
   const { refreshToken } = userInfo;
   return api.makeRequest({
@@ -25,4 +32,9 @@ const refreshToken = (userInfo: any) => {
   });
 };
 
-export const authService = { handleLoginApi, updateUserInfo, refreshToken };
+export const authService = {
+  handleLoginApi,
+  updateUserInfo,
+  refreshToken,
+  getInfoUser,
+};
