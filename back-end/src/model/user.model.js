@@ -4,13 +4,13 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
     userId: { type: String, required: true, unique: true },
-    displayName: { type: String, require: true },
-    username: { type: String, require: true, unique: true },
-    password: { type: String, require: true },
-    photoURL: { type: String },
+    displayName: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    photoURL: { type: String, default: null },
     isAdmin: { type: Boolean, default: false },
     favorite: { type: Array },
-    refreshToken: { type: String, require: true },
+    refreshToken: { type: String, default: null },
   },
   {
     timestamps: true,

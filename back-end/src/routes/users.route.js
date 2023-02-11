@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controller/userController");
 const validateToken = require("../middleware/validateToken");
-
-const root = require("app-root-path");
+const { AVARTAR_FOLDER } = require("../helper/constant");
+//const root = require("app-root-path");
 const multer = require("multer");
 const path = require("path");
+const root = path.resolve("./");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, root + "/src/public/images/");
+    cb(null, root + AVARTAR_FOLDER);
   },
 
   // By default, multer removes file extensions so let's add them back

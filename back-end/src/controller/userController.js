@@ -2,8 +2,8 @@ const Users = require("../model/user.model");
 const userServices = require("../services/userServices");
 const removeSign = require("../helper/removeSign");
 const { getDir } = require("../helper/file");
-const root = require("app-root-path");
 const path = require("path");
+const root = path.resolve("./");
 const { removeDir } = require("../helper/file");
 const {
   responseSuccessWithData,
@@ -11,8 +11,8 @@ const {
   responseServerError,
   reponseSuccess,
 } = require("../helper/ResponseRequests");
+const { AVARTAR_FOLDER } = require("../helper/constant");
 const bcrypt = require("bcryptjs");
-const { NULL } = require("node-sass");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -72,15 +72,20 @@ exports.SignUp = async (req, res) => {
 exports.EditUser = async (req, res) => {
   const { id } = req.decoded;
   const photoURlOld = req.body.photoURlOld;
-  const filePath = path.join(__dirname, ".." + photoURlOld);
+  const filePath = root + photoURlOld;
   delete req.body.photoURlOld;
   console.log(req.file);
   let data = {};
+  const favorite = [];
+  if (req.body.favorite) {
+    favorite.push(req.body.favorite);
+  }
   try {
     if (req.file) {
       data = {
         ...req.body,
-        photoURL: "/public/images/" + req.file?.filename,
+        photoURL: AVARTAR_FOLDER + req.file?.filename,
+        favorite: favorite,
       };
     } else {
       data = { ...req.body, photoURL: null };
@@ -104,6 +109,10 @@ exports.EditUser = async (req, res) => {
 exports.DeleteUser = async (req, res) => {
   try {
     const user = await Users.findOneAndDelete({ userId: req.body.userId });
+    if (user.photoURL) {
+      const filePath = root + user.photoURL;
+      removeDir({ dir: filePath });
+    }
     return reponseSuccess({ res });
   } catch (err) {
     return responseServerError({ res, err: err.message });
