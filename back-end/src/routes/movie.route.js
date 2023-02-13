@@ -3,6 +3,7 @@ const router = express.Router();
 const { v4: uuid } = require("uuid");
 const movieController = require("../controller/movieController");
 const Movie = require("../model/movie.model");
+const ListMovie = require("../model/listMovie.model");
 const {
   responseServerError,
   reponseSuccess,
@@ -36,8 +37,10 @@ const uploadFile = multer({ storage: storagePoster }).fields([
 ]);
 
 router.get("/getMovieById", movieController.getMovieById);
-//router.post("/createMovie", mutipleUpload, movieController.createMovie);
-// router.patch("/updateMovieInfo", movieController.editMovie);
+router.get("/getAllMovie", movieController.getAllMovie);
+router.get("/searchMoive", movieController.searchMoive);
+router.get("/random", movieController.getMovieRandom);
+
 router.delete("/deleteMovie", movieController.deleteMovie);
 router.delete("/deleteVideos", movieController.deleteVideos);
 
@@ -49,13 +52,13 @@ router.post("/createMovie", async function (req, res) {
         return responseServerError({ res, err: err.message });
       } else {
         const movieId = uuid();
-        const pathPoster = req.files.poster
+        const pathPoster = req.files?.poster
           ? MOVIE_FOLDER + req.files.poster[0].filename
           : null;
-        const pathTrailer = req.files.trailer
+        const pathTrailer = req.files?.trailer
           ? MOVIE_FOLDER + req.files.trailer[0].filename
           : null;
-        let movies = req.files.videos;
+        let movies = req.files?.videos;
         let pathMovies = [];
         if (movies) {
           pathMovies = movies.map((movie) => {
@@ -65,6 +68,15 @@ router.post("/createMovie", async function (req, res) {
               duration: req.body.duration,
               pisode: req.body.pisode,
             };
+          });
+        }
+        if (req.body.category) {
+          req.body.category.forEach(async (category) => {
+            const listMovie = await ListMovie.findOne({ type: category });
+            if (listMovie) {
+              listMovie.movies.push(movieId);
+            }
+            await listMovie.save();
           });
         }
         const movie = new Movie({
@@ -98,11 +110,36 @@ router.patch("/updateMovieInfo", async function (req, res) {
         let pathPoster;
         let pathTrailer;
         if (movie) {
+          //update like
           if (req.body.like && !movie.like.includes(req.body.like)) {
             movie.like.push(req.body.like);
           }
+          //update dislike
           if (req.body.dislike && !movie.dislike.includes(req.body.dislike)) {
             movie.dislike.push(req.body.dislike);
+          }
+          //update category
+          if (req.body.category) {
+            req.body.category.forEach(async (category) => {
+              const listMovie = await ListMovie.findOne({ type: category });
+              if (listMovie) {
+                listMovie.movies.push(req.body.movieId);
+              }
+              await listMovie.save();
+            });
+            ListMovie.updateMany(
+              {
+                movies: movie.movieId,
+              },
+              {
+                $pull: {
+                  movies: movie.movieId,
+                },
+              },
+              function (err, movie) {
+                if (err) return responseServerError({ res, err: err.message });
+              }
+            );
           }
         } else {
           //k co user nhung van upload file

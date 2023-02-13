@@ -10,7 +10,7 @@ const movieSchema = new Schema(
     like: [{ type: String }],
     dislike: [{ type: String }],
     year: { type: Number, default: null },
-    category: { type: String, default: null },
+    category: [{ type: String, default: null }],
     poster: { type: String, default: null }, // image
     isSeries: { type: Boolean, default: false },
     videos: [
@@ -23,7 +23,7 @@ const movieSchema = new Schema(
     ],
     time: { type: Number, default: null },
     trailer: { type: String, default: null },
-    actor: { type: String, default: null },
+    actor: [{ type: String, default: null }],
     directors: { type: String, default: null },
   },
   {
