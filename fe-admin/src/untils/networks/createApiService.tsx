@@ -1,6 +1,6 @@
 import axios from "axios";
 // import https from "https";
-import https from "https";
+// import https from "https";
 import { serverConfig } from "../../const";
 
 var { server } = serverConfig;
@@ -61,9 +61,9 @@ const makeRequest = (options: any = {}) => {
 
   //const baseUrlValidated = options.baseUrl || getEnv('baseAPIUrl')
   const instance = axios.create({
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false,
-    }),
+    // httpsAgent: new https.Agent({
+    //   rejectUnauthorized: false,
+    // }),
     baseURL: BaseURL,
     timeout: 1000000, //30000,
   });
