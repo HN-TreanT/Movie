@@ -5,8 +5,8 @@ import { store, persistor } from "./redux";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { RouterLinks } from "./const";
 import Login from "./pages/login-page/login";
-import { AuthorizationPage } from "./pages/Authirization-page/AuthorizationPage";
-import EditInfo from "./pages/edit-page/editInfo";
+// import { AuthorizationPage } from "./pages/Authirization-page/AuthorizationPage";
+import HomePage from "./pages/Home-Page/HomePage";
 
 function App() {
   return (
@@ -18,16 +18,16 @@ function App() {
               <div className="ContentPage">
                 <Routes>
                   <Route path={RouterLinks.LOGIN_PAGE} element={<Login />} />
-                  <Route
-                    path={RouterLinks.APP_PAGE}
+                  {/* <Route
+                    path={RouterLinks.HOME_PAGE}
                     element={<AuthorizationPage />}
                   >
-                    <Route
-                      path={RouterLinks.EDIT_PAGE}
-                      element={<EditInfo />}
-                    />
-                  </Route>
+                  </Route> */}
+                  {/* <Route
+                  path={RouterLinks.HOME_PAGE}
+                  element={<HomePage/>}></Route> */}
                 </Routes>
+                <HomePage />
               </div>
             </div>
           </div>

@@ -1,5 +1,7 @@
 export const RouterLinks = {
   LOGIN_PAGE: "/login",
-  APP_PAGE: "/app",
-  EDIT_PAGE: "/app/edit_page",
+  HOME_PAGE: "/home",
+  EDIT_PAGE: "/edit_page",
+  MOVIE_PAGE: "/home/movie",
+  USER_PAGE: "home/user",
 };

@@ -13,7 +13,7 @@ export const AuthorizationPage = () => {
   const navigate = useNavigate();
   const handleClick = () => {
     // <Navigate to={RouterLinks.EDIT_PAGE} />;
-    navigate(RouterLinks.EDIT_PAGE);
+    navigate(RouterLinks.HOME_PAGE);
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -21,10 +21,10 @@ export const AuthorizationPage = () => {
   };
   return (
     <>
-      <div>App page</div>
+      {/* <div>App page</div>
       {isLogin ? <div>Login success</div> : <div>not login</div>}
       <button onClick={handleClick}>edit</button>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout}>Logout</button> */}
       <Outlet />
     </>
   );

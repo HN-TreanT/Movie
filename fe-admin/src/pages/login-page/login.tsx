@@ -22,7 +22,7 @@ const LoginPage = () => {
   if (token) {
     localStorage.setItem("token", token);
     localStorage.setItem("username", userInfo.username);
-    return <Navigate to={RouterLinks.APP_PAGE} />;
+    return <Navigate to={RouterLinks.HOME_PAGE} />;
   }
 
   return (
